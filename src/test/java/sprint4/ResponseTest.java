@@ -12,36 +12,36 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pageobject.MainPage;
 
+import static pageobject.MainPage.*;
+
 
 @RunWith(Parameterized.class)
 public class ResponseTest {
     private WebDriver driver;
-    private String questionId;
-    private String textId;
-    private String responseId;
+    private String questionText;
+    private String responseText;
+    private String indexNumber;
 
-        public ResponseTest(String questionId, String textId, String responseId) {
-            // Локатор для id вопроса
-            this.questionId = questionId;
+        public ResponseTest(String questionText, String responseText, String indexNumber) {
+            // Текст вопроса
+            this.questionText = questionText;
             // Образец ответа
-            this.textId = textId;
-            // Локатор для id ответа
-            this.responseId = responseId;
+            this.responseText = responseText;
+            // индекс с номером вопроса/ответа
+            this.indexNumber = indexNumber;
         }
 
     @Parameterized.Parameters
     public static Object[][] getQuestions() {
         return new Object[][] {
-                { "accordion__heading-0", "Сутки — 400 рублей. Оплата курьеру — наличными или картой.", "accordion__panel-0"},
-                { "accordion__heading-1", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.", "accordion__panel-1"},
-                //В строку ниже специально внесены изменения, что бы проверить как программа реагирует на несовпадение с образцом.
-                { "accordion__heading-2", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите за заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.", "accordion__panel-2"},
-                { "accordion__heading-3", "Только начиная с завтрашнего дня. Но скоро станем расторопнее.", "accordion__panel-3"},
-                { "accordion__heading-4", "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.", "accordion__panel-4"},
-                { "accordion__heading-5", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.", "accordion__panel-5"},
-                { "accordion__heading-6", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.", "accordion__panel-6"},
-                //В строку ниже специально внесены изменения, что бы проверить как программа реагирует на несовпадение с образцом.
-                { "accordion__heading-7", "Да, обязательно. Всем самокаты! И Москве, и Московской области.", "accordion__panel-7"},
+                { HOW_MUCH_QUESTION, HOW_MUCH_RESPONSE, "0"},
+                { SEVERAL_SCOOTER_QUESTION, SEVERAL_SCOOTER_RESPONSE, "1"},
+                { RENT_TIME_QUESTION, RENT_TIME_RESPONSE, "2"},
+                { ORDER_TODAY_QUESTION, ORDER_TODAY_RESPONSE, "3"},
+                { CHANGING_ORDER_QUESTION, CHANGING_ORDER_RESPONSE, "4"},
+                { CHARGING_SCOOTER_QUESTION, CHARGING_SCOOTER_RESPONSE, "5"},
+                { CANCEL_ORDER_QUESTION, CANCEL_ORDER_RESPONSE, "6"},
+                { COUNTRY_SIDE_QUESTION, COUNTRY_SIDE_RESPONSE, "7"},
         };
     }
     @Before
@@ -52,7 +52,7 @@ public class ResponseTest {
         driver.get("https://qa-scooter.praktikum-services.ru/");
     }
     @Test
-    public void checkQuestions() {
+    public void checkQuestionsTest() {
             //Создание объекта класса главной страницы
             MainPage objMainPage = new MainPage(driver);
             //Ожидание загрузки страницы
@@ -60,12 +60,12 @@ public class ResponseTest {
             //Подтвердить согласие на использование куки
             objMainPage.clickConfirmButton();
             //Кликнуть на вопрос
-            objMainPage.clickOnQuestion(questionId);
+            objMainPage.clickOnQuestion(questionText);
             //Дождаться загрузки ответа
-            objMainPage.waitFindResponse(responseId);
+            objMainPage.waitFindResponse(indexNumber);
             //Сравнить ответ с образцом
-            Assert.assertEquals("Текст не соответствует образцу",textId,
-                driver.findElement(By.id(responseId)).getText());
+            Assert.assertEquals("Текст не соответствует образцу",responseText,
+                objMainPage.getResponseText(indexNumber));
     }
 
    @After

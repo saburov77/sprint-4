@@ -57,7 +57,7 @@ public class OrderTest {
         driver.get("https://qa-scooter.praktikum-services.ru");
     }
     @Test
-    public void checkOrder() {
+    public void checkOrderTest() {
         //Создание объекта класса главной страницы
         MainPage objMainPage = new MainPage(driver);
         //Создание объекта класса страницы заказа

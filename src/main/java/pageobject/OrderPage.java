@@ -49,8 +49,10 @@ public class OrderPage {
     private final By trackOrderInfo = By.xpath(".//div[contains(@class, 'Track_OrderInfo')]");
     //Локатор для модального окна подтверждения заказа
     private final By statusOrder = By.xpath(".//div[contains(@class, 'Order_ModalHeader')]");
-    //Локатор для логотипа самокат.
-    private final By scooterLogo = By.xpath(".//a[contains(@class, 'Header_LogoScooter')]");
+
+    //Локатор для проверки заголовка формы "Для кого самокат"
+    private final By whoRentScooterHeader = By.xpath(".//div[contains(@class, 'Order_Header')]");
+
     //Конструктор класса
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -122,9 +124,10 @@ public class OrderPage {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOfElementLocated(trackOrderInfo));
     }
-    //Кликнуть по логотипу самокат, что бы вернутся на главную страницу
-    public void clickOnLogo() {
-        driver.findElement(scooterLogo).click();
+    //Прочитать текст заголовка формы "Для кого самокат"
+    public String getHeaderForm () {
+        return driver.findElement(whoRentScooterHeader).getText();
     }
+
 }
 

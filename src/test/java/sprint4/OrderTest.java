@@ -88,15 +88,6 @@ public class OrderTest {
         objOrderPage.clickOnStatusButton();
         //Ожидание загрузки страницы с информацией о заказе
         objOrderPage.waitPageLoad();
-        //Кликнуть по логотипу самокат, что бы вернутся на главную страницу.
-        objOrderPage.clickOnLogo();
-        //Ожидание загрузки главной страницы
-        objMainPage.waitPageLoad();
-        //Кликнуть по кнопке "Заказать" сверху страницы
-        objMainPage.clickOnTopOrderButton();
-        //Для того чтобы убедится что кнопка "Заказать" работает, заполняем ещё раз поля формы "Для кого самокат"
-        objOrderPage.spellingField(name, surname, address, metro, phone);
-
 
     }
 
